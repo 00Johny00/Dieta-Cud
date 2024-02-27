@@ -1,0 +1,50 @@
+<div class="container mt-5 " >
+  <h2>Weekly Diet Planner</h2>
+  <div class="row">
+    <ng-container  *ngFor="let week of wholeDietWeeks">
+      <div class="col-2">
+        <h4>Tydzień {{ week.number }}</h4>
+        <div class="day-box" *ngFor="let day of week.days">
+          <button class="btn btn-primary mt-2" (click)="selectWholeDay(day)"><h5>{{ day.name }}</h5></button>
+          <div *ngFor="let dish of day.dishes" [ngClass]="{ 'bg-success': dish.selected }" (click)="toggleSelection(dish)">
+            {{ dish.name }}
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div class="container mt-5 ">
+  <div class="row">
+    <div class="col-12">
+      <h1> Lista zakupów:</h1>
+      <ng-container *ngIf="productsToBuy.length > 0">
+        <div *ngFor="let location of allLocations | keyvalue">
+          <h2> {{location.value}}</h2>
+          <ng-container *ngFor="let product of productsToBuy">
+            <ng-container *ngIf="product.localicationInStore == location.value">
+              <h4>
+                <button type="button" class="btn btn-primary me-1" (click)="removeProduct(product)">X</button>
+                <button type="button" class="btn btn-success me-1" (click)="toDoProduct(product)">Later</button>
+                {{product.name}} {{product.amount}} {{product.unit}} Sugerowana porcja {{product.suggestedPortion}}{{product.suggestedPortionUnit}} {{product.localicationInStore}}
+              </h4>
+            </ng-container>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 ">
+  <div class="col-12">
+    <h1> Na potem:</h1>
+    <ng-container *ngFor="let product of productsToBuyLater " >
+      <h4>
+        <button type="button" class="btn btn-primary me-1" (click)="removeProductLater(product)">X</button>
+        {{product.name}} {{product.amount}} {{product.unit}} Sugerowana porcja {{product.suggestedPortion}}{{product.suggestedPortionUnit}} {{product.localicationInStore}}
+      </h4>
+    </ng-container>
+  </div>
+</div>
